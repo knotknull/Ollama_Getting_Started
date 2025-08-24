@@ -1,0 +1,28 @@
+Ollama: Open Source tool for running LLMs locally.
+
+Ollama  provides a convenient way to download and run advanced AI models (like LLaMA, Mistral, etc.) 
+directly on your machine instead of relying on cloud APIs. This approach is appealing for developers, 
+researchers, and businesses that care about data control and privacy, since no data needs to leave the 
+local environment . By running models offline, you maintain full ownership of your data and eliminate 
+potential security risks of sending sensitive information to third-party servers. 
+
+Another benefit of local execution is reduced latency – responses can be faster and more reliable 
+without network delays . Overall, Ollama’s purpose is to make it easy to experiment with and use advanced 
+language models on personal or on-premise systems, giving you more control over both the models and your data.
+
+Benefits:
+    - Data Privacy / Security
+    - Offline Capability
+    - Low Latency / Performance
+    - Cost Savings
+    - Control and Customization
+
+
+   Installation:
+   curl -fsSL https://ollama.com/install.sh | sh 
+
+   Check install:
+   ollama --version
+
+map@hexagon:/Ollama_Getting_Started/> ollama --version
+ollama version is 0.11.6
