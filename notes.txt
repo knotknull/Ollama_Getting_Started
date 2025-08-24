@@ -75,7 +75,7 @@ tcp     LISTEN   0        4096            127.0.0.1:11434           0.0.0.0:*   
 ## ollama server
 ##   - launches Ollama server process that powers API and model loading
 
-
+[[ STOPPED HERE, switched to notes.md]]
 
 
 

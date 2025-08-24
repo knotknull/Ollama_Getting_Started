@@ -1,0 +1,2 @@
+alias olm=ollama
+export OLLAMA_MODELS=/home/map/archive/ai/ollama/models/
