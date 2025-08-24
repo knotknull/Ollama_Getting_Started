@@ -21,8 +21,80 @@ Benefits:
    Installation:
    curl -fsSL https://ollama.com/install.sh | sh 
 
-   Check install:
-   ollama --version
+##   Check install:
+##   ollama --version
 
-map@hexagon:/Ollama_Getting_Started/> ollama --version
+Ollama_Getting_Started/> ollama --version
 ollama version is 0.11.6
+
+## CLI usage 
+## 
+Ollama_Getting_Started/> ollama
+Usage:
+  ollama [flags]
+  ollama [command]
+
+Available Commands:
+  serve       Start ollama
+  create      Create a model
+  show        Show information for a model
+  run         Run a model
+  stop        Stop a running model
+  pull        Pull a model from a registry
+  push        Push a model to a registry
+  list        List models
+  ps          List running models
+  cp          Copy a model
+  rm          Remove a model
+  help        Help about any command
+
+Flags:
+  -h, --help      help for ollama
+  -v, --version   Show version information
+
+Use "ollama [command] --help" for more information about a command.
+
+## alias: let's shorten this up
+alias olm=ollama
+
+## use ss to find the port / process
+## -t : show tcp connections
+## -u : show udp connections
+## -l : show listening sockets
+## -p : show PID and program name of process ownig the socket
+## -n : show numerical addresses and port numbers and program name of process ownig the socket
+
+> sudo ss -tulpn
+Netid   State    Recv-Q   Send-Q      Local Address:Port       Peer Address:Port   Process                                                       
+udp     UNCONN   0        0                 0.0.0.0:47165           0.0.0.0:*
+....                                                                    
+tcp     LISTEN   0        4096            127.0.0.1:11434           0.0.0.0:*       users:(("ollama",pid=383423,fd=3)) 
+
+
+
+## ollama server
+##   - launches Ollama server process that powers API and model loading
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
