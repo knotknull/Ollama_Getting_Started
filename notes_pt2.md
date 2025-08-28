@@ -98,10 +98,94 @@ where an enterprise grade serving solution (OpenLLM, Text Generation Inference)
 
 
 ## Integrations with OpenWebUi, LiteLLM and others
-[LAST HERE]
 
+### Open WebUI - GUI for Local LLMs
+aka Ollama WebUI, open source web interface that works with local LLM backends.
+Open WebUI is a Web Application that connects to Ollama API. 
+Local website http://localhost:3000 
+Run via docker:
+```
+## podman run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway \
+##  -v open-webui:/app/backend/data --name open-webui ghcr.io/open-webui/open-webui:main
+## This works for me, had something running on 3000
+## NOTE: the final version uses --network=host
+## 
+# podman run -d \
+#   --name open-webui \
+#   -p 8181:8080 \
+#   -v open-webui:/app/backend/data \
+#   -e OLLAMA_BASE_URL=http://127.0.0.1:11434 \
+#   --restart always \
+#   ghcr.io/open-webui/open-webui:main
+
+##  working: changed -p 8181:8080 to --network=host
+##  This allows connectivity to Ollama @ http://127.0.0.1:11434 
+##  open-webui to access all of the local models.  
+podman run -d \
+  --name open-webui \
+  --network=host \
+  -v open-webui:/app/backend/data \
+  -e OLLAMA_BASE_URL=http://127.0.0.1:11434 \
+  --restart always \
+  ghcr.io/open-webui/open-webui:main
+
+
+## validate via:
+curl http://localhost:8080
+
+
+ note: I changed over to podman from docker
+```
+
+### LiteLLM: bridging APIs 
+- a proxy that provides an OpenAI-compatible API on one side and translates to various 
+backend calls on the other. 
+- Open WebUI <-> LiteLLM <-> [Azure OpenAI, Amazon Bedrock, etc]
+ 
+***Integrating LiteLLM***: In an Ollama + Open WebUI setup, you’d deploy LiteLLM (it can be a small server or container) configured with the routes to your desired endpoints. For instance, configure it so that requests with model name “azure/gpt4” go to Azure OpenAI, and requests with model name “ollama/llama2” go to your local Ollama. Open WebUI would then point to LiteLLM as its backend (instead of directly to Ollama). A lot of this can be orchestrated with Docker Compose: you’d have one service for Open WebUI, one for LiteLLM, and maybe one for Ollama, all networked together. In fact, a Docker Compose example from a blog shows how they linked Open WebUI and LiteLLM, setting OPENAI_API_BASE_URL to the LiteLLM service and an extra_hosts entry so that the WebUI container can find the Ollama host machine​.
+
+The end result is a ***flexible AI stack***: Open WebUI for UI, LiteLLM for intelligent routing, and Ollama (plus possibly others) for actual model serving​. This setup means users can switch between models (local or cloud) seamlessly. For example, you might primarily use the local model to save costs, but if it fails or if you need a second opinion, you switch to a cloud model via the same interface.
+
+### Other Frameworks and Integrations
+
+- LangChan: due to Ollama compatability with OpenAI API, you can use LangChain to integrate it (openai.ChatCompletion)
+python:
+```
+import openai
+openai.api_base = "http://localhost:11434"  # Ollama's default API endpoint
+openai.api_key = "ignored"  # Ollama doesn't require a key, but the client needs one set
+response = openai.ChatCompletion.create(
+    model="llama2",
+    messages=[{"role": "user", "content": "Hello, world!"}]
+)
+print(response["choices"][0]["message"]["content"])
+```
+This allows complex integration with multiple local models. 
+
+- Custom UI / Bots: Raycast, "Continue" VS Code extension
+
+- BentoML OpenLLM:  BentoML's OpenLLM framework can serve LLMs in Production.
+BentoML allows you to containerize an Ollama model easiily.  
+  BentoML --> [Docker image [Ollama model]] --> deploy 
+
+- API / SDKs :  Ollama provides Python / Javascript  
+  - python : pip install ollama 
+  - Node.js: Javascript SDK
+
+- Other GUIs: Text Generation Web UI, OobaBooga UI)
+  NOT: Ollama speaks a common language (OpenAI API and its own resP API )
+
+- Cloud Integrations: Integration w/ Azure Functions / AWS Lambda-like env 
+for serverless usage. 
+
+- Workflow Managers: LangFlow, Flowise  (provides a UI to build langchain flows)
+  Airflow coudld call Ollama as part of pipeline
+
+### Code Snippte: Using Ollama with a WebUI
+[LAST HERE]
 
 
 *source:* 
 [Ollama Part 2](https://www.cohorte.co/blog/ollama-advanced-use-cases-and-integrations)
+LLava, BakLLava (text to image generation / vistion-language model)
 
