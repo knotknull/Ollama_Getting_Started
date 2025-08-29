@@ -181,8 +181,42 @@ for serverless usage.
 - Workflow Managers: LangFlow, Flowise  (provides a UI to build langchain flows)
   Airflow coudld call Ollama as part of pipeline
 
-### Code Snippte: Using Ollama with a WebUI
+### Code Snippet: Using Ollama with a WebUI
+Code the shows integration with OpenWebUI and Ollama using Docker Compose
+docker-compose.yml:
+```
+# docker-compose.yml
+version: '3'
+services:
+  ollama:
+    image: ollama/ollama:latest  # assume an Ollama docker image
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama  # persist models
+    command: ollama serve
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    depends_on:
+      - ollama
+    ports:
+      - "3000:8080"
+    environment:
+      OPENAI_API_BASE_URL: "http://ollama:11434"    # point WebUI to Ollama service
+      OPENAI_API_KEY: "not_used_but_required"
+      WEBUI_AUTH: "false"  # disable auth for simplicity
+    extra_hosts:
+      - "ollama:127.0.0.1"  # ensure the container can resolve the name (if needed)
+
+```
+Two services: ollama and webui. The WebUI is configured to talk to the Ollama’s API. By running docker-compose up, you would get a local Ollama server and the Open WebUI all set up together. Then y
+
+### Code Snippet: Hybrid API via LiteLLM (Integraion Example)
 [LAST HERE]
+
+
+
 
 
 *source:* 
