@@ -173,7 +173,7 @@ BentoML allows you to containerize an Ollama model easiily.
   - Node.js: Javascript SDK
 
 - Other GUIs: Text Generation Web UI, OobaBooga UI)
-  NOT: Ollama speaks a common language (OpenAI API and its own resP API )
+  NOT: Ollama speaks a common language (OpenAI API and its own rest API )
 
 - Cloud Integrations: Integration w/ Azure Functions / AWS Lambda-like env 
 for serverless usage. 

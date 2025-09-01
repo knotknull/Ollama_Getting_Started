@@ -1,0 +1,28 @@
+# ollama_webui_compose.yml
+# run me via podman compose -f ollama_webui_compose.yml up
+version: '3'
+services:
+  ollama:
+    image: docker.io/ollama/ollama  # assume an Ollama docker image
+    ports:
+      - "11435:11435"
+    volumes:
+      - /home/map/archive/ai/:/root/.ollama  # persist models
+    security_opt:
+      - label=disable
+    command: ollama serve
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    depends_on:
+      - ollama
+    ports:
+      - "8181:8080"
+    environment:
+      OPENAI_API_BASE_URL: "http://ollama:11435"    # point WebUI to Ollama service
+      OPENAI_API_KEY: "not_used_but_required"
+      WEBUI_AUTH: "false"  # disable auth for simplicity
+    extra_hosts:
+      - "ollama:127.0.0.1"  # ensure the container can resolve the name (if needed)
+
+
